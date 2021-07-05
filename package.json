@@ -1,5 +1,6 @@
 {
   "version": "0.0.0",
+  "homepage": "https://rouby.github.io/audio-converter/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
