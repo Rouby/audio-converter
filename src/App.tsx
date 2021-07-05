@@ -48,6 +48,7 @@ function App() {
         setAudioFiles({ ...urls });
         const zip = new JSZip();
         for (const file of acceptedFiles) {
+          setCurrentProgress(0);
           setCurrentFile(file.name);
           ffmpeg.FS('writeFile', file.name, await fetchFile(file));
           await ffmpeg.run('-i', file.name, 'output.ogg');
@@ -133,11 +134,13 @@ function App() {
             <Center>
               <Button
                 disabled={generating}
-                onClick={() =>
+                onClick={() => {
+                  setGenerating(true);
                   zipFile
                     .generateAsync({ type: 'blob' })
                     .then((content) => saveAs(content, 'audio.zip'))
-                }
+                    .then(() => setGenerating(false));
+                }}
               >
                 {generating ? <Loader /> : null}
                 Download all
