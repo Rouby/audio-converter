@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@mantine/core", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.1"],
             ["@mantine/hooks", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.1"],
+            ["@modulz/radix-icons", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.0.0"],
             ["@types/file-saver", "npm:2.0.2"],
             ["@types/react", "npm:17.0.13"],
             ["@types/react-dom", "npm:17.0.8"],
@@ -477,6 +478,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/@mantine-hooks-virtual-b2fe398a91/0/cache/@mantine-hooks-npm-2.0.1-6c179b2ca9-e0606e3ac1.zip/node_modules/@mantine/hooks/",
           "packageDependencies": [
             ["@mantine/hooks", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.1"],
+            ["@types/react", "npm:17.0.13"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@modulz/radix-icons", [
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/@modulz-radix-icons-npm-4.0.0-e6be878e6e-a44af87ae1.zip/node_modules/@modulz/radix-icons/",
+          "packageDependencies": [
+            ["@modulz/radix-icons", "npm:4.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.0.0", {
+          "packageLocation": "./.yarn/$$virtual/@modulz-radix-icons-virtual-11524962da/0/cache/@modulz-radix-icons-npm-4.0.0-e6be878e6e-a44af87ae1.zip/node_modules/@modulz/radix-icons/",
+          "packageDependencies": [
+            ["@modulz/radix-icons", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.0.0"],
             ["@types/react", "npm:17.0.13"],
             ["react", "npm:17.0.2"]
           ],
@@ -2249,6 +2272,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["root-workspace-0b6124", "workspace:."],
             ["@mantine/core", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.1"],
             ["@mantine/hooks", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:2.0.1"],
+            ["@modulz/radix-icons", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:4.0.0"],
             ["@types/file-saver", "npm:2.0.2"],
             ["@types/react", "npm:17.0.13"],
             ["@types/react-dom", "npm:17.0.8"],

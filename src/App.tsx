@@ -1,4 +1,12 @@
-import { Button, Center, Loader } from '@mantine/core';
+import {
+  Button,
+  Center,
+  Loader,
+  MantineProvider,
+  RingProgress,
+  Text,
+} from '@mantine/core';
+import { CheckIcon } from '@modulz/radix-icons';
 import clsx from 'clsx';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
@@ -23,6 +31,12 @@ function App() {
     {} as Record<string, string>,
   );
   const [zipFile, setZipFile] = React.useState(null as null | JSZip);
+  const [currentFile, setCurrentFile] = React.useState('');
+  const [currentProgress, setCurrentProgress] = React.useState(0);
+
+  ffmpeg.setProgress(({ ratio }: any) => {
+    setCurrentProgress(Math.round(ratio * 100));
+  });
 
   React.useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -34,14 +48,16 @@ function App() {
         setAudioFiles({ ...urls });
         const zip = new JSZip();
         for (const file of acceptedFiles) {
+          setCurrentFile(file.name);
           ffmpeg.FS('writeFile', file.name, await fetchFile(file));
           await ffmpeg.run('-i', file.name, 'output.ogg');
+          console.log(ffmpeg.progress);
           const data = ffmpeg.FS('readFile', 'output.ogg');
 
           const blob = new Blob([data], { type: 'audio/ogg' });
 
           urls[file.name] = URL.createObjectURL(blob);
-          zip.file(file.name.replace(/\.\w+$/, 'ogg'), blob);
+          zip.file(file.name.replace(/\.\w+$/, '.ogg'), blob);
           setAudioFiles({ ...urls });
         }
         setZipFile(zip);
@@ -49,55 +65,88 @@ function App() {
     }
   }, [acceptedFiles]);
 
+  const [generating, setGenerating] = React.useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">Audio Converter</header>
-      <div className="Dropzone-container">
-        <div
-          {...getRootProps({
-            className: clsx(
-              'Dropzone',
-              isDragActive && 'Dropzone-active',
-              isDragAccept && 'Dropzone-accept',
-              isDragReject && 'Dropzone-reject',
-            ),
-          })}
-        >
-          <input {...getInputProps()} />
-          <p>Drag 'n' drop some files here, or click to select files</p>
+    <MantineProvider theme={{ colorScheme: 'dark' }}>
+      <div className="App">
+        <header className="App-header">Audio Converter</header>
+        <div className="Dropzone-container">
+          <div
+            {...getRootProps({
+              className: clsx(
+                'Dropzone',
+                isDragActive && 'Dropzone-active',
+                isDragAccept && 'Dropzone-accept',
+                isDragReject && 'Dropzone-reject',
+              ),
+            })}
+          >
+            <input {...getInputProps()} />
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          </div>
+          <ul className="File-list">
+            {acceptedFiles.map((file) => (
+              <li key={file.name} className="File">
+                <div>
+                  <RingProgress
+                    size={60}
+                    thickness={8}
+                    sections={[
+                      {
+                        value:
+                          currentFile === file.name
+                            ? currentProgress
+                            : !audioFiles[file.name]
+                            ? 0
+                            : 100,
+                        color: 'teal',
+                      },
+                    ]}
+                    label={
+                      <Center>
+                        {!audioFiles[file.name] ? (
+                          <Text size="xs">
+                            {currentFile === file.name ? currentProgress : 0}%
+                          </Text>
+                        ) : (
+                          <CheckIcon style={{ height: 22, width: 22 }} />
+                        )}
+                      </Center>
+                    }
+                  />
+                </div>
+                <div>{file.name}</div>
+                {audioFiles[file.name] ? (
+                  <audio
+                    className="Player"
+                    controls
+                    src={audioFiles[file.name]}
+                  />
+                ) : (
+                  <div />
+                )}
+              </li>
+            ))}
+          </ul>
+          {zipFile ? (
+            <Center>
+              <Button
+                disabled={generating}
+                onClick={() =>
+                  zipFile
+                    .generateAsync({ type: 'blob' })
+                    .then((content) => saveAs(content, 'audio.zip'))
+                }
+              >
+                {generating ? <Loader /> : null}
+                Download all
+              </Button>
+            </Center>
+          ) : null}
         </div>
-        <ul className="File-list">
-          {acceptedFiles.map((file) => (
-            <li key={file.name} className="File">
-              <div>{!audioFiles[file.name] ? <Loader size="sm" /> : null}</div>
-              <div>{file.name}</div>
-              {audioFiles[file.name] ? (
-                <audio
-                  className="Player"
-                  controls
-                  src={audioFiles[file.name]}
-                />
-              ) : (
-                <div />
-              )}
-            </li>
-          ))}
-        </ul>
-        {zipFile ? (
-          <Center>
-            <Button
-              onClick={() =>
-                zipFile
-                  .generateAsync({ type: 'blob' })
-                  .then((content) => saveAs(content, 'audio.zip'))
-              }
-            >
-              Download all
-            </Button>
-          </Center>
-        ) : null}
       </div>
-    </div>
+    </MantineProvider>
   );
 }
 
