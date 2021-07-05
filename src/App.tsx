@@ -41,7 +41,7 @@ function App() {
           const blob = new Blob([data], { type: 'audio/ogg' });
 
           urls[file.name] = URL.createObjectURL(blob);
-          zip.file(file.name.replace(/wav$/, 'ogg'), blob);
+          zip.file(file.name.replace(/\.\w+$/, 'ogg'), blob);
           setAudioFiles({ ...urls });
         }
         setZipFile(zip);
@@ -85,7 +85,6 @@ function App() {
         </ul>
         {zipFile ? (
           <Center>
-            {' '}
             <Button
               onClick={() =>
                 zipFile
